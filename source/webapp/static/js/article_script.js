@@ -17,7 +17,7 @@ async function onClick(event) {
     let url = btn.href;
     let response = await makeRequest(url);
 
-    if (response.action === 'Liked'){
+    if (response.action === 'Liked') {
         btn.innerText = 'Unlike';
     } else {
         btn.innerText = 'Like';
@@ -31,7 +31,7 @@ async function onClick(event) {
 
 function onLoad() {
     let likeButtons = document.querySelectorAll('[data-like="article"]');
-    for (let likeBtn of likeButtons){
+    for (let likeBtn of likeButtons) {
         likeBtn.addEventListener("click", onClick);
         console.log(likeBtn);
     }

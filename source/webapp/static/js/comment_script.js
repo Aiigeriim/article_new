@@ -17,13 +17,13 @@ async function onClick(event) {
     let url = btn.href;
     let response = await makeRequest(url);
 
-    if (response.action === 'Liked'){
+    if (response.action === 'Liked') {
         btn.innerText = 'Unlike';
     } else {
         btn.innerText = 'Like';
     }
 
-    let counter = document.getElementById(`article-${btn.dataset.commentId}`)
+    let counter = document.getElementById(`comment-${btn.dataset.commentId}`)
     counter.innerText = response.likes_count
 
 
@@ -31,7 +31,7 @@ async function onClick(event) {
 
 function onLoad() {
     let likeButtons = document.querySelectorAll('[data-like="comment"]');
-    for (let likeBtn of likeButtons){
+    for (let likeBtn of likeButtons) {
         likeBtn.addEventListener("click", onClick);
         console.log(likeBtn);
     }

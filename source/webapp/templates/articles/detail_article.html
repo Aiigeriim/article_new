@@ -52,6 +52,7 @@
                 <p>{{ comment.text }}</p>
                 <a href="{% url 'webapp:comment-update' comment.pk %}">Update</a>
                 <a href="{% url 'webapp:comment-delete' comment.pk %}">Delete</a>
+
                 {% if request.user.is_authenticated %}
                     <a href="{% url 'webapp:comment-like' comment.pk %}" data-like="comment"
                        data-comment-id="{{ comment.id }}">
@@ -60,7 +61,7 @@
                         {% else %}
                             Like
                         {% endif %}</a>
-                    <span id="article-{{ comment.id }}"></span>
+                    <span id="comment-{{ comment.id }}"></span>
                 {% endif %}
 
             </div>

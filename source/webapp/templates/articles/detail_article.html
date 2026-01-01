@@ -10,13 +10,16 @@
         <a class="nav-link active" aria-current="page" href="{% url 'webapp:add-article' %}">Create article</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{% url 'webapp:article-update' article.pk %}">Update article</a>
+        <a class="nav-link active" aria-current="page" href="{% url 'webapp:article-update' article.pk %}">Update
+            article</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{% url 'webapp:article-delete' article.pk %}">Delete article</a>
+        <a class="nav-link active" aria-current="page" href="{% url 'webapp:article-delete' article.pk %}">Delete
+            article</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{% url 'webapp:add-comment' article.pk %}">Create comment</a>
+        <a class="nav-link active" aria-current="page" href="{% url 'webapp:add-comment' article.pk %}">Create
+            comment</a>
     </li>
 {% endblock %}
 
@@ -27,6 +30,13 @@
         <p>Автор - {{ article.author }}</p>
         <p>Дата создания - {{ article.created_at }} </p>
         <p>Статус - {{ article.get_status_display }} </p>
+        <hr/>
+        <a href="{% url 'webapp:article-like' article.pk %}" data-like="article" data-article-id="{{ article.id }}"> {% if user in article.likes.all %}
+            Unlike
+        {% else %}
+            Like
+        {% endif %}</a>
+        <span id="article-{{ article.id }}"></span>
         <hr/>
         <h5>Tags</h5>
         {% for tag in article.tags.all %}
@@ -39,7 +49,8 @@
                 <p>{{ comment.text }}</p>
                 <a href="{% url 'webapp:comment-update' comment.pk %}">Update</a>
                 <a href="{% url 'webapp:comment-delete' comment.pk %}">Delete</a>
-            
+                {#                <a href="{% url 'webapp:article-like' comment.pk %}" data-comment-id="{{ comment.id }}" data-test-js="js">Like</a>#}
+
             </div>
 
         {% endfor %}

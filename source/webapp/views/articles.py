@@ -1,14 +1,17 @@
+from django.contrib.admin import action
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from webapp.forms import ArticleForm, SearchForm
 
-from webapp.models import Article
+from webapp.models import Article, article
 
 
 class ArticleListView(ListView):
@@ -97,3 +100,21 @@ class DetailArticleView(DetailView):
         result = super().get_context_data(**kwargs)
         result['comments'] = self.object.comments.order_by('-created_at')
         return result
+
+
+class LikeArticleView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, pk, **kwargs):
+        article = get_object_or_404(Article, pk=pk)
+        if request.user in article.likes.all():
+            article.likes.remove(request.user)
+            action = 'Unliked'
+        else:
+            article.likes.add(request.user)
+            action = 'Liked'
+
+        return JsonResponse({
+            'likes_count': article.likes.count(),
+            'action': action})
+
+

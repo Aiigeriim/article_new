@@ -20,6 +20,8 @@ class Article(BaseCreateUpdateModel):
         through='webapp.ArticleTag',
         through_fields=("article", "tag"),
     )
+    likes = models.ManyToManyField(get_user_model(), related_name='liked_articles', verbose_name='Лайки')
+
 
     def __str__(self):
         return f"{self.id} - {self.title}"
